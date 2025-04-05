@@ -33,6 +33,8 @@ var current_attack_func: Callable
 var current_dash_func: Callable
 var current_sprint_func: Callable
 var current_crouch_func: Callable
+var current_action1_func: Callable
+var current_action2_func: Callable
 
 # declare changeable node refs
 var visuals: Node3D
@@ -48,16 +50,20 @@ func set_form_functions() -> void:
 		current_jump_func = human.human_jump
 		current_attack_func = human.human_attack
 		current_dash_func = human.human_dash
-		current_sprint_func = human.human_sprint #added
-		current_crouch_func = human.human_crouch #added
+		current_sprint_func = human.human_sprint
+		current_crouch_func = human.human_crouch
+		current_action1_func = human.human_action1
+		current_action2_func = human.human_action2
 		visuals = human.get_node("HumanVisuals")
 	elif state_machine.current_form == state_machine.Form.KITSUNE:
 		current_move_func = kitsune.kitsune_move
 		current_jump_func = kitsune.kitsune_jump
 		current_attack_func = kitsune.kitsune_attack
 		current_dash_func = kitsune.kitsune_dash
-		current_sprint_func = kitsune.kitsune_sprint #added
-		current_crouch_func = kitsune.kitsune_crouch #added
+		current_sprint_func = kitsune.kitsune_sprint
+		current_crouch_func = kitsune.kitsune_crouch
+		current_action1_func = kitsune.kitsune_action1
+		current_action2_func = kitsune.kitsune_action2
 		visuals = kitsune.get_node("KitsuneVisuals")
 
 func swap_collider():
@@ -105,6 +111,9 @@ func crouch() -> void:
 	
 func attack() -> void:
 	current_attack_func.call()
+
+func action2() -> void:
+	current_action2_func.call()
 
 func swap_form(new_form):
 	# We already swapped the form in the state machine, now what does the character do with that?

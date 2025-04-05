@@ -1,7 +1,8 @@
+# state_machine.gd
 extends Node
 
 enum Form {HUMAN, KITSUNE}
-enum State {IDLE, WALKING, JUMPING, DASHING, SPRINTING, CROUCHING, ATTACKING, ACTION2}
+enum State {IDLE, WALKING, JUMPING, FALLING, DASHING, SPRINTING, CROUCHING, ATTACKING, ACTION2}
 
 # export vars
 @export var current_form: Form = Form.KITSUNE
@@ -27,19 +28,25 @@ func _ready() -> void:
 	input_handler.rotate_camera.connect(_on_camera_rotate)
 
 func _physics_process(delta: float) -> void:
+	# debug
+	print(State.keys()[current_state])
 	
 	# reset jump state
 	if character.is_on_floor():
 		land()
-
+		if character.velocity.length() <= 0.1:
+			current_state = State.IDLE
+	elif current_state != State.JUMPING:
+		current_state = State.FALLING
 
 func _on_move(direction: Vector3, delta: float) -> void:
-	if current_state != State.DASHING or State.JUMPING: # we arent dashing rn
+	#if current_state != State.DASHING or State.JUMPING: # we arent doing any special manuevers
+	if current_state != State.DASHING: # we arent doing any special manuevers
 		if character.is_on_floor():
 			current_state = State.WALKING
 		character.move_character(direction, delta) # Call move function on player
 	else:
-		character.move_character(Vector3.ZERO) #no move input delivered, need to specify when??
+		character.move_character(Vector3.ZERO, delta) #no move input delivered, need to specify when??
 
 func _on_jump() -> void:
 	if current_state != State.JUMPING and not has_jumped:
@@ -50,9 +57,9 @@ func _on_jump() -> void:
 		print("cannot jump right now.")
 
 func _on_dash() -> void:
-	if current_state == State.JUMPING and current_state != State.DASHING: #check if jumping, and not dashing.
+	if current_state != State.DASHING: #check if not dashing.
 		current_state = State.DASHING
-		character.dash() # Call function on CharacterBody3D
+		character.dash() # Call function on CharacterBody3D, let the character decide what to do if theyre on the floor or not.
 		has_dashed = true
 	else:
 		print("cannot dash right now.")
@@ -62,7 +69,7 @@ func _on_attack() -> void:
 	current_state = State.ATTACKING
 
 func _on_action_two() -> void:
-	print("action 2 was called")
+	character.action2()
 	current_state = State.ACTION2
 
 func _on_form_swap() -> void:
