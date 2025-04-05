@@ -93,8 +93,8 @@ func on_camera_rotate(amount:Vector2, delta:float) -> void:
 	camera_pivot_pitch.rotate_x(amount.y * sens * delta)
 	camera_pivot_pitch.rotation.x = clamp(camera_pivot_pitch.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
-func move_character(move_direction: Vector3, delta: float) -> void:
-	current_move_func.call(move_direction, delta)
+func set_intended_direction(move_direction: Vector3) -> void:
+	current_move_func.call(move_direction)
 	has_movement_input = true
 
 func jump() -> void:
@@ -111,6 +111,9 @@ func crouch() -> void:
 	
 func attack() -> void:
 	current_attack_func.call()
+
+func action1() -> void:
+	current_action1_func.call()
 
 func action2() -> void:
 	current_action2_func.call()

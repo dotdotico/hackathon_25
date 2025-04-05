@@ -8,7 +8,7 @@ extends Node
 # internal vars
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func kitsune_move(move_direction: Vector3, delta: float):
+func kitsune_move(move_direction: Vector3):
 	var camera_forward: Vector3 = character.camera_pivot_pitch.global_transform.basis.z * -1
 	camera_forward.y = 0
 	camera_forward = camera_forward.normalized()
@@ -22,9 +22,9 @@ func kitsune_move(move_direction: Vector3, delta: float):
 	if relative_movement_direction != Vector3.ZERO:
 		var target_rotation: float = -atan2(relative_movement_direction.z, relative_movement_direction.x)
 		target_rotation -= PI / 2.0
-		character.visuals.rotation.y = lerp_angle(character.visuals.rotation.y, target_rotation, character.rotation_speed * delta)
+		character.visuals.rotation.y = lerp_angle(character.visuals.rotation.y, target_rotation, character.rotation_speed )
 
-	var movedir: Vector3 = relative_movement_direction * kitsune_move_speed * delta
+	var movedir: Vector3 = relative_movement_direction * kitsune_move_speed
 	character.velocity += movedir
 
 func kitsune_jump():
@@ -41,3 +41,9 @@ func kitsune_sprint():
 
 func kitsune_crouch():
 	print("Kitsune crouch")
+	
+func kitsune_action1():
+	print("Kitsune action1")
+
+func kitsune_action2():
+	print("Kitsune action2")

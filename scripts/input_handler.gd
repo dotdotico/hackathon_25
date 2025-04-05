@@ -1,5 +1,6 @@
 # input_handler.gd
 extends Node
+class_name InputHandler
 
 signal move(move_direction:Vector3, delta:float)
 signal rotate_camera(amount:Vector2, delta:float)
@@ -7,15 +8,15 @@ signal action_jump()
 signal action_crouch()
 signal action_dash()
 signal action_sprint()
-signal action_one()
-signal action_two()
+signal action_interact()
+signal action_attack()
 signal action_form_swap()
 
 func _physics_process(delta: float) -> void:
 	var input_vector = Input.get_vector("move_left", "move_right", "move_backward", "move_forward")
 	if input_vector != Vector2.ZERO:
 		var move_direction = Vector3(input_vector.x, 0, input_vector.y)
-		emit_signal("move", move_direction.normalized(), delta)
+		emit_signal("move", move_direction.normalized())
 
 	if Input.is_action_just_pressed("action_jump"):
 		emit_signal("action_jump")
@@ -25,10 +26,8 @@ func _physics_process(delta: float) -> void:
 		emit_signal("action_dash")
 	if Input.is_action_just_pressed("action_sprint"):
 		emit_signal("action_sprint")
-	if Input.is_action_just_pressed("action_one"):
-		emit_signal("action_one")
-	if Input.is_action_just_pressed("action_two"):
-		emit_signal("action_two")
+	if Input.is_action_just_pressed("action_interact"):
+		emit_signal("action_interact")
 	if Input.is_action_just_pressed("action_form_swap"):
 		emit_signal("action_form_swap")
 
