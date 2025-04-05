@@ -1,14 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://tbhrrj3nihxl"]
+[gd_scene load_steps=5 format=3 uid="uid://tbhrrj3nihxl"]
 
 [ext_resource type="Script" uid="uid://dyvlybh3x568d" path="res://scenes/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://6ahhotfjg4w" path="res://scenes/components/input_handler.tscn" id="2_qhqgy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_g2els"]
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_g2els")
 
 [node name="Collider1" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0015893, 1.00619, -0.00219584)
 shape = SubResource("CapsuleShape3D_u8vuu")
 
 [node name="InputHandler" parent="." instance=ExtResource("2_qhqgy")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_g2els")
+
+[node name="CameraPivotYaw" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47193, 0)
+
+[node name="CameraPivotPitch" type="Node3D" parent="CameraPivotYaw"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivotYaw/CameraPivotPitch"]
+spring_length = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivotYaw/CameraPivotPitch/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75525, 2.41784)
