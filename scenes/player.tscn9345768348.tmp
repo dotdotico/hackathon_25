@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://tbhrrj3nihxl"]
+[gd_scene load_steps=10 format=3 uid="uid://tbhrrj3nihxl"]
 
 [ext_resource type="Script" uid="uid://c4drvv47awrj0" path="res://scripts/character.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://4rau8u2274ol" path="res://scripts/input_handler.gd" id="2_g2els"]
@@ -6,20 +6,29 @@
 [ext_resource type="Script" uid="uid://bpbouw2s5yiq5" path="res://scripts/kitsune.gd" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://dgwvt61msxw4g" path="res://scripts/human.gd" id="5_qlg0r"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
-height = 1.25
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
+radius = 0.001
+height = 0.002
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qhqgy"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_g2els"]
-height = 1.25
 
 [sub_resource type="PrismMesh" id="PrismMesh_g2els"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_qlg0r"]
-
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_g2els")
+move_speed = null
+jump_velocity = null
+rotation_speed = null
+camera_sensitivity = null
+sprint_multiplier = null
+crouch_multiplier = null
+acceleration = null
+deceleration = null
+air_deceleration = null
+extra_gravity_multiplier = null
+fast_fall_gravity_multiplier = null
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_qhqgy")
@@ -28,44 +37,42 @@ script = ExtResource("2_qhqgy")
 script = ExtResource("2_g2els")
 
 [node name="KitsuneCollider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
-shape = SubResource("CapsuleShape3D_qlg0r")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0015893, 1.00619, -0.00219584)
+shape = SubResource("CapsuleShape3D_u8vuu")
 
 [node name="HumanCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
 shape = SubResource("CapsuleShape3D_qhqgy")
 
 [node name="Kitsune" type="Node3D" parent="."]
 script = ExtResource("4_dqkch")
-kitsune_move_speed = 20.0
 
 [node name="KitsuneVisuals" type="Node3D" parent="Kitsune"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Kitsune/KitsuneVisuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("CapsuleMesh_g2els")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Kitsune/KitsuneVisuals"]
-transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 0.28929, -0.154141, 1.20509, -0.128243)
-mesh = SubResource("PrismMesh_g2els")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Kitsune/KitsuneVisuals"]
-transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 0.28929, 0.149377, 1.20509, -0.128927)
+transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 1.77374, 0, 0, -0.43721)
 mesh = SubResource("PrismMesh_g2els")
 
 [node name="Human" type="Node3D" parent="."]
-visible = false
 script = ExtResource("5_qlg0r")
-human_move_speed = 12.0
 
 [node name="HumanVisuals" type="Node3D" parent="Human"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Human/HumanVisuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_qlg0r")
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CapsuleMesh_g2els")
 skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Human/HumanVisuals"]
+transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 1.77374, 0, 0, -0.43721)
+mesh = SubResource("PrismMesh_g2els")
 
 [node name="CameraPivotYaw" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47193, 0)

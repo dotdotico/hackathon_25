@@ -1,50 +1,68 @@
 extends Node
 
 enum Form {HUMAN, KITSUNE}
-enum State {IDLE, WALKING, JUMPING, DASHING, SPRINTING, CROUCHING}
+enum State {IDLE, WALKING, JUMPING, DASHING, SPRINTING, CROUCHING, ATTACKING, ACTION2}
 
 # export vars
-@export var current_form = Form.KITSUNE
-@export var current_state = State.IDLE
+@export var current_form: Form = Form.KITSUNE
+@export var current_state: State = State.IDLE
 
 # onready vars
-@onready var character:CharacterBody3D = get_parent() #this state machine should be a child
-@onready var kitsune:Node3D = $"../Kitsune"
-@onready var human:Node3D = $"../Human"
+@onready var character: CharacterBody3D = get_parent() #this state machine should be a child
 
-func _ready():
+# internal vars
+var is_on_floor:bool
+
+func _ready() -> void:
 	# Connect signals from InputHandler
 	var input_handler = character.get_node("InputHandler")
 	input_handler.move.connect(_on_move)
 	input_handler.action_jump.connect(_on_jump)
+	input_handler.action_one.connect(_on_attack)
+	input_handler.action_two.connect(_on_action_two)
 	input_handler.action_dash.connect(_on_dash)
 	input_handler.action_form_swap.connect(_on_form_swap)
 
-func _on_move(direction, delta):
-	if current_state != State.DASHING: # we arent dashing rn
+func _physics_process(delta: float) -> void:
+	#reset jump state
+	if is_on_floor and current_state == State.JUMPING:
+		current_state = State.IDLE
+	print(str(current_state))
+
+
+func _on_move(direction: Vector3, delta: float) -> void:
+	if current_state != State.DASHING or State.JUMPING: # we arent dashing rn
 		current_state = State.WALKING
 		character.move_character(direction, delta) # Call function on CharacterBody3D
 	else:
 		character.move_character(Vector3.ZERO) #dashing, no move input delivered
 
-func _on_jump():
-	if current_state != State.DASHING:
+func _on_jump() -> void:
+	if current_state != State.DASHING or State.JUMPING:
 		current_state = State.JUMPING
-		character.jump() # Call function on CharacterBody3D
+		character.jump()
 	else:
-		print("cannot jump while dashing")
+		print("cannot jump right now.")
 
-func _on_dash():
-	if current_state == State.JUMPING and not State.DASHING:
+func _on_dash() -> void:
+	if current_state == State.JUMPING and current_state != State.DASHING: #check if jumping, and not dashing.
 		current_state = State.DASHING
 		character.dash() # Call function on CharacterBody3D
 	else:
-		print("cannot dash right now")
+		print("cannot dash right now.")
 
-func _on_form_swap():
-	character.swap_form() # Call function on CharacterBody3D
+func _on_attack() -> void:
+	character.attack()
+	current_state = State.ATTACKING
+
+func _on_action_two() -> void:
+	print("action 2 was called")
+	current_state = State.ACTION2
+
+func _on_form_swap() -> void:
 	if current_form == Form.HUMAN:
 		current_form = Form.KITSUNE
 	else:
 		current_form = Form.HUMAN
-	print("Form swapped to: ", current_form)
+	character.swap_form(current_form) # Call function on CharacterBody3D and to set new form.
+	print("Form swapped to: ", str(current_form))

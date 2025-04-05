@@ -1,4 +1,4 @@
-# Input Handler
+# input_handler.gd
 extends Node
 
 signal move(move_direction:Vector3, delta:float)
@@ -13,7 +13,7 @@ signal action_one()
 signal action_two()
 signal action_form_swap()
 
-func _process(delta):
+func _physics_process(delta: float) -> void:
 	var input_vector = Input.get_vector("move_left", "move_right", "move_backward", "move_forward")
 	if input_vector != Vector2.ZERO:
 		var move_direction = Vector3(input_vector.x, 0, input_vector.y)
@@ -38,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		emit_signal("rotate_camera_horizontal", -event.relative.x)
 		emit_signal("rotate_camera_vertical", -event.relative.y)
-
-func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
