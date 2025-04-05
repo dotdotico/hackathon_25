@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://tbhrrj3nihxl"]
+[gd_scene load_steps=8 format=3 uid="uid://tbhrrj3nihxl"]
 
 [ext_resource type="Script" uid="uid://c4drvv47awrj0" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://4rau8u2274ol" path="res://scripts/input_handler.gd" id="2_g2els"]
 [ext_resource type="Script" uid="uid://bav3sxpcv1ott" path="res://scripts/state_machine.gd" id="2_qhqgy"]
-[ext_resource type="Script" uid="uid://bpbouw2s5yiq5" path="res://scripts/kitsune.gd" id="4_dqkch"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
 radius = 0.001
@@ -33,7 +32,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_qhqgy")
 
 [node name="Kitsune" type="Node3D" parent="."]
-script = ExtResource("4_dqkch")
 
 [node name="KitsuneVisuals" type="Node3D" parent="Kitsune"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
