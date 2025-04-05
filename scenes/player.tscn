@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://tbhrrj3nihxl"]
+
+[ext_resource type="Script" uid="uid://dyvlybh3x568d" path="res://scenes/player.gd" id="1_g2els"]
+[ext_resource type="PackedScene" uid="uid://6ahhotfjg4w" path="res://scenes/components/input_handler.tscn" id="2_qhqgy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u8vuu"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_g2els")
+
+[node name="Collider1" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_u8vuu")
+
+[node name="InputHandler" parent="." instance=ExtResource("2_qhqgy")]
