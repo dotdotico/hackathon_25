@@ -1,13 +1,14 @@
 extends CharacterBody3D
 
 # Exported variables for tuning movement
-@export var camera_sensitivity := 0.01
-@export var sprint_multiplier := 2.0
-@export var crouch_multiplier := 0.5
-@export var acceleration := 10.0 # Increased
-@export var deceleration := 15.0 # Increased
-@export var air_deceleration := 3.0
-@export var rotation_speed := 5.0 #used by children
+@export var mouse_look_sensitivity:float = 0.01
+@export var gamepad_look_sensitivity:float = 5
+@export var sprint_multiplier:float = 2.0
+@export var crouch_multiplier:float = 0.5
+@export var acceleration:float = 10.0 # Increased
+@export var deceleration:float = 15.0 # Increased
+@export var air_deceleration:float = 3.0
+@export var rotation_speed:float = 5.0 #used by children
 
 # onready vars, node references
 @onready var input_handler: Node = $InputHandler
@@ -77,11 +78,13 @@ func _physics_process(delta: float) -> void:
 	# end of movement input for this frame
 	has_movement_input = false
 
-func on_rotate_horizontal(amount: float) -> void:
-	camera_pivot_yaw.rotate_y(amount * camera_sensitivity)
-
-func on_rotate_vertical(amount: float) -> void:
-	camera_pivot_pitch.rotate_x(amount * camera_sensitivity)
+func on_camera_rotate(amount:Vector2, delta:float) -> void:
+	var sens = mouse_look_sensitivity
+	if delta != 1: #detect if we are using a gamepad this frame, mouse delta=1
+		sens = gamepad_look_sensitivity
+		amount.x *= (-1)
+	camera_pivot_yaw.rotate_y(amount.x * sens * delta)
+	camera_pivot_pitch.rotate_x(amount.y * sens * delta)
 	camera_pivot_pitch.rotation.x = clamp(camera_pivot_pitch.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
 func move_character(move_direction: Vector3, delta: float) -> void:

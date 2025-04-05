@@ -17,7 +17,7 @@ func human_move(move_direction: Vector3, delta: float):
 	camera_right = camera_right.normalized()
 	var relative_movement_direction: Vector3 = camera_forward * move_direction.z + camera_right * move_direction.x
 	relative_movement_direction.y = 0
-	relative_movement_direction = relative_movement_direction.normalized()
+	relative_movement_direction = relative_movement_direction
 
 	if relative_movement_direction != Vector3.ZERO:
 		var target_rotation: float = -atan2(relative_movement_direction.z, relative_movement_direction.x)

@@ -10,8 +10,10 @@ enum State {IDLE, WALKING, JUMPING, DASHING, SPRINTING, CROUCHING, ATTACKING, AC
 # onready vars
 @onready var character: CharacterBody3D = get_parent() #this state machine should be a child
 
-# internal vars
-var is_on_floor:bool
+# track states
+var has_jumped:bool
+var has_dashed:bool
+var has_air_crouched:bool
 
 func _ready() -> void:
 	# Connect signals from InputHandler
@@ -22,25 +24,28 @@ func _ready() -> void:
 	input_handler.action_two.connect(_on_action_two)
 	input_handler.action_dash.connect(_on_dash)
 	input_handler.action_form_swap.connect(_on_form_swap)
+	input_handler.rotate_camera.connect(_on_camera_rotate)
 
 func _physics_process(delta: float) -> void:
-	#reset jump state
-	if is_on_floor and current_state == State.JUMPING:
-		current_state = State.IDLE
-	print(str(current_state))
+	
+	# reset jump state
+	if character.is_on_floor():
+		land()
 
 
 func _on_move(direction: Vector3, delta: float) -> void:
 	if current_state != State.DASHING or State.JUMPING: # we arent dashing rn
-		current_state = State.WALKING
-		character.move_character(direction, delta) # Call function on CharacterBody3D
+		if character.is_on_floor():
+			current_state = State.WALKING
+		character.move_character(direction, delta) # Call move function on player
 	else:
-		character.move_character(Vector3.ZERO) #dashing, no move input delivered
+		character.move_character(Vector3.ZERO) #no move input delivered, need to specify when??
 
 func _on_jump() -> void:
-	if current_state != State.DASHING or State.JUMPING:
+	if current_state != State.JUMPING and not has_jumped:
 		current_state = State.JUMPING
 		character.jump()
+		has_jumped = true
 	else:
 		print("cannot jump right now.")
 
@@ -48,6 +53,7 @@ func _on_dash() -> void:
 	if current_state == State.JUMPING and current_state != State.DASHING: #check if jumping, and not dashing.
 		current_state = State.DASHING
 		character.dash() # Call function on CharacterBody3D
+		has_dashed = true
 	else:
 		print("cannot dash right now.")
 
@@ -65,4 +71,14 @@ func _on_form_swap() -> void:
 	else:
 		current_form = Form.HUMAN
 	character.swap_form(current_form) # Call function on CharacterBody3D and to set new form.
-	print("Form swapped to: ", str(current_form))
+	print("Form swapped to: ", Form.keys()[current_form])
+
+func _on_camera_rotate(amount,delta):
+	#debug
+	#print(str(amount) + ":" + str(delta))
+	character.on_camera_rotate(amount,delta)
+
+func land():
+	has_jumped = false
+	has_dashed = false
+	has_air_crouched = false

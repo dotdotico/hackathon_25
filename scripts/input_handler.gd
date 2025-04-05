@@ -2,9 +2,7 @@
 extends Node
 
 signal move(move_direction:Vector3, delta:float)
-signal look(look_direction:Vector3, delta:float)
-signal rotate_camera_horizontal(amount:float)
-signal rotate_camera_vertical(amount:float)
+signal rotate_camera(amount:Vector2, delta:float)
 signal action_jump()
 signal action_crouch()
 signal action_dash()
@@ -18,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	if input_vector != Vector2.ZERO:
 		var move_direction = Vector3(input_vector.x, 0, input_vector.y)
 		emit_signal("move", move_direction.normalized(), delta)
-	
+
 	if Input.is_action_just_pressed("action_jump"):
 		emit_signal("action_jump")
 	if Input.is_action_just_pressed("action_crouch"):
@@ -34,11 +32,16 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("action_form_swap"):
 		emit_signal("action_form_swap")
 
+func _process(delta: float) -> void: #called every single possible frame, good for cameras
+	var input_vector = Input.get_vector("look_left", "look_right", "look_down", "look_up")
+	if input_vector != Vector2.ZERO:
+		emit_signal("rotate_camera", input_vector.normalized(), delta)
+		print(input_vector)
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		emit_signal("rotate_camera_horizontal", -event.relative.x)
-		emit_signal("rotate_camera_vertical", -event.relative.y)
+	if event is InputEventMouseMotion and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED):
+		emit_signal("rotate_camera", -event.relative, 1.0)
 	if Input.is_action_just_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
