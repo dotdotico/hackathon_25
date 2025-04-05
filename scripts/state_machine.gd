@@ -1,7 +1,7 @@
 extends Node
 
 enum Form {HUMAN, KITSUNE}
-enum State {IDLE, WALKING, JUMPING, DASHING}
+enum State {IDLE, WALKING, JUMPING, DASHING, SPRINTING, CROUCHING}
 
 # export vars
 @export var current_form = Form.KITSUNE
@@ -9,6 +9,8 @@ enum State {IDLE, WALKING, JUMPING, DASHING}
 
 # onready vars
 @onready var character:CharacterBody3D = get_parent() #this state machine should be a child
+@onready var kitsune:Node3D = $"../Kitsune"
+@onready var human:Node3D = $"../Human"
 
 func _ready():
 	# Connect signals from InputHandler
@@ -33,11 +35,11 @@ func _on_jump():
 		print("cannot jump while dashing")
 
 func _on_dash():
-	if current_state != State.DASHING:
+	if current_state == State.JUMPING and not State.DASHING:
 		current_state = State.DASHING
 		character.dash() # Call function on CharacterBody3D
 	else:
-		print("cannot dash while dashing")
+		print("cannot dash right now")
 
 func _on_form_swap():
 	character.swap_form() # Call function on CharacterBody3D

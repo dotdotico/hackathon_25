@@ -15,10 +15,11 @@ extends CharacterBody3D
 
 # onready vars
 @onready var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-@onready var input_handler = $InputHandler
-@onready var camera_pivot_yaw = $CameraPivotYaw
-@onready var camera_pivot_pitch = $CameraPivotYaw/CameraPivotPitch
-@onready var visuals = $Visuals
+@onready var input_handler:Node = $InputHandler
+@onready var camera_pivot_yaw:Node3D = $CameraPivotYaw
+@onready var camera_pivot_pitch:Node3D = $CameraPivotYaw/CameraPivotPitch
+@onready var state_machine:Node = $StateMachine
+@onready var visuals:Node3D = $Kitsune/KitsuneVisuals
 
 # internal vars
 var target_velocity := Vector3.ZERO
@@ -26,8 +27,18 @@ var dash_direction := Vector3.ZERO
 var has_movement_input := false
 
 func _ready():
-	# Capture mouse input
+	# Capture mouse input, move this later
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# declare all the functions for the active form
+	set_form_functions()
+
+func set_form_functions():
+	if state_machine.current_form == state_machine.Form.HUMAN:
+		#human functions here
+		pass
+	if state_machine.current_form == state_machine.Form.HUMAN:
+		#kitsune functions here
+		pass
 
 func _physics_process(delta):
 	# Apply gravity
@@ -85,7 +96,4 @@ func sprint():
 	pass
 
 func crouch():
-	pass
-
-func swap_form():
 	pass
