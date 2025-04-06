@@ -6,10 +6,10 @@ class_name Character
 @export var gamepad_look_sensitivity:float = 5
 @export var sprint_multiplier:float = 2.0
 @export var crouch_multiplier:float = 0.5
-@export var acceleration:float = 5.0
+@export var acceleration:float = 3.0
 @export var deceleration:float = 5.0
-@export var air_deceleration:float = 5.0
-@export var rotation_speed:float = 8.0
+@export var air_deceleration:float = 0.5
+@export var rotation_speed:float = 10.0
 
 # onready vars, node references
 @onready var input_handler: Node = $InputHandler
@@ -33,6 +33,8 @@ var current_dash_func: Callable
 var current_sprint_func: Callable
 var current_crouch_func: Callable
 var current_interact_func: Callable
+var current_air_dash_func: Callable
+var current_ground_dash_func: Callable
 var move_speed: float
 
 # declare changeable node refs
@@ -47,7 +49,8 @@ func set_form_functions() -> void:
 	if state_machine.current_form == state_machine.Form.HUMAN:
 		current_jump_func = human.human_jump
 		current_attack_func = human.human_attack
-		current_dash_func = human.human_dash
+		current_air_dash_func = human.human_dash
+		current_ground_dash_func = human.human_dash
 		current_sprint_func = human.human_sprint
 		current_crouch_func = human.human_crouch
 		current_interact_func = human.human_interact
@@ -56,7 +59,8 @@ func set_form_functions() -> void:
 	elif state_machine.current_form == state_machine.Form.KITSUNE:
 		current_jump_func = kitsune.kitsune_jump
 		current_attack_func = kitsune.kitsune_attack
-		current_dash_func = kitsune.kitsune_dash
+		current_air_dash_func = kitsune.human_dash
+		current_ground_dash_func = kitsune.human_dash
 		current_sprint_func = kitsune.kitsune_sprint
 		current_crouch_func = kitsune.kitsune_crouch
 		current_interact_func = kitsune.kitsune_interact
@@ -69,14 +73,6 @@ func swap_collider():
 
 func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
-	
-	#deceleration
-	if is_on_floor():
-		velocity.x = lerp(velocity.x, 0.0, deceleration * delta)
-		velocity.z = lerp(velocity.z, 0.0, deceleration * delta)
-	else:
-		velocity.x = lerp(velocity.x, 0.0, air_deceleration * delta)
-		velocity.z = lerp(velocity.z, 0.0, air_deceleration * delta)
 	
 	if abs(velocity.x) < 0.01:
 		velocity.x = 0
@@ -110,14 +106,26 @@ func on_move(move_direction: Vector3, delta: float) -> void:
 		target_rotation -= PI / 2.0
 		visuals.rotation.y = lerp_angle(visuals.rotation.y, target_rotation, rotation_speed*delta)
 	target_velocity = relative_movement_direction * move_speed
-	velocity.x = lerp(velocity.x, target_velocity.x, acceleration * delta)
-	velocity.z = lerp(velocity.z, target_velocity.z, acceleration * delta)
+	
+	var accel:float
+	if is_on_floor():
+		if move_direction.length_squared() > 0.01:
+			accel = acceleration
+		else:
+			accel = deceleration
+	else:
+		accel = air_deceleration
+	velocity.x = lerp(velocity.x, target_velocity.x, accel * delta)
+	velocity.z = lerp(velocity.z, target_velocity.z, accel * delta)
 
 func jump() -> void:
 	current_jump_func.call()
 
 func dash() -> void:
-	current_dash_func.call()
+	if is_on_floor():
+		current_ground_dash_func.call()
+	else:
+		current_air_dash_func.call()
 
 func sprint() -> void:
 	current_sprint_func.call()

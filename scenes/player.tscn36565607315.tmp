@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://tbhrrj3nihxl"]
+[gd_scene load_steps=17 format=3 uid="uid://tbhrrj3nihxl"]
 
 [ext_resource type="Script" uid="uid://c4drvv47awrj0" path="res://scripts/character.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://4rau8u2274ol" path="res://scripts/input_handler.gd" id="2_g2els"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cy8bt5yaela0k" path="res://scripts/states/MovingState.gd" id="5_ur7pv"]
 [ext_resource type="Script" uid="uid://ctq5bg5yveiv" path="res://scripts/states/FallingState.gd" id="6_ur7pv"]
 [ext_resource type="Script" uid="uid://dij83j8t62cge" path="res://scripts/states/DashingState.gd" id="7_y4r1p"]
+[ext_resource type="Script" uid="uid://cheeoog5png8s" path="res://scripts/states/AttackingState.gd" id="8_d2wvv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_g2els"]
 height = 1.25
@@ -28,6 +29,8 @@ script = ExtResource("1_g2els")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_qhqgy")
+current_form = null
+initial_state_key = null
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("3_tuyoq")
@@ -49,6 +52,10 @@ metadata/_custom_type_script = "uid://ctq5bg5yveiv"
 script = ExtResource("7_y4r1p")
 dash_timer = null
 metadata/_custom_type_script = "uid://dij83j8t62cge"
+
+[node name="AttackingState" type="Node" parent="StateMachine"]
+script = ExtResource("8_d2wvv")
+metadata/_custom_type_script = "uid://cheeoog5png8s"
 
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("2_g2els")

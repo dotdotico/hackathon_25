@@ -38,7 +38,6 @@ func _process(delta: float) -> void: #called every single possible frame, good f
 	var input_vector = Input.get_vector("look_left", "look_right", "look_down", "look_up")
 	if input_vector != Vector2.ZERO:
 		emit_signal("rotate_camera", input_vector.normalized(), delta)
-		print(input_vector)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED):

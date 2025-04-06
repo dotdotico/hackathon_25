@@ -1,20 +1,19 @@
-# JumpingState.gd
+# FallingState.gd
 extends State
 class_name FallingState
 
-# basic functions
 func enter() -> void:
-	character.jump()
-	state_machine.can_jump = false
-	# other junk
+	print("FallingState entered")
 
-func physics_update(delta: float) -> void:
-	var direction = state_machine.input_handler.move_direction
-	if direction == null:
-		direction = Vector3.ZERO
+func physics_update(delta:float) -> void:
+	var direction: Vector3 = state_machine.input_handler.move_direction
+	
+	if character.velocity.length_squared() <= 0.01 and character.is_on_floor():
+		transition_to(&"IdleState") # Transition to idle
+		return
+	
+	#enable movement
 	state_machine._on_move(direction, delta)
-	if character.is_on_floor():
-		transition_to(&"IdleState")
 
 func exit() -> void:
 	pass

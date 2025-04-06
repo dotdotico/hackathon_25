@@ -21,6 +21,8 @@ var can_jump := true
 var can_dash := true
 var can_sprint := true
 var can_swap := true
+var can_attack := true
+var can_interact := true
 
 func _ready() -> void:
 	# Find child states
@@ -91,28 +93,35 @@ func _on_move(direction: Vector3, delta:float) -> void:
 	character.on_move(direction, delta)
 
 func _on_jump() -> void:
+	#HARD CODED OVERRIDE, WE CAN ALWAYS TRY TO JUMP NO MATTER THE STATE
 	# Attempt to jump
 	if can_jump:
 		character.jump()
-		transition_to(&"MovingState")
+		transition_to(&"JumpingState")
 	else:
 		print("Can't jump.")
 
 func _on_dash() -> void:
-	# attempt to dash
+	#HARD CODED OVERRIDE, WE CAN ALWAYS TRY TO JUMP NO MATTER THE STATE
+	# Attempt to dash
 	if can_dash:
 		transition_to(&"DashingState")
 	else:
 		print("Can't dash.")
 
 func _on_attack() -> void:
-	transition_to(&"AttackingState")
+	#HARD CODED OVERRIDE, WE CAN ALWAYS TRY TO ATTACK NO MATTER THE STATE
+	# Attempt to attack
+	pass
+	#transition_to(&"AttackingState")
 
 func _on_sprint() -> void:
-	transition_to(&"SprintingState")
+	if can_sprint:
+		transition_to(&"SprintingState")
 
 func _on_interact() -> void:
-	transition_to(&"InteractingState")
+	if can_interact:
+		transition_to(&"InteractingState")
 
 func _on_form_swap() -> void:
 	if can_swap:

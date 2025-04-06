@@ -1,11 +1,13 @@
-# IdleState.gd
+# DashingState.gd
 extends State
-class_name IdleState
+class_name DashingState
+
+@export var dash_timer := 2.0
 
 func enter() -> void:
-	print("Dash: Enter")
+	print("Idle: Enter")
 	state_machine.can_jump = true
-	state_machine.can_dash = true
+	state_machine.can_dash = false
 	pass
 
 func physics_update(_delta: float) -> void:
@@ -19,5 +21,5 @@ func physics_update(_delta: float) -> void:
 		transition_to(&"MovingState") # Transition to moving state if we "want" to move
 
 func exit() -> void:
-	print("Dash: Exit")
+	print("Idle: Exit")
 	pass

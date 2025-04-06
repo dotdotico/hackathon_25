@@ -1,6 +1,6 @@
 # state.gd
-class_name State
 extends Node
+class_name State
 
 # needed vars by each state
 var state_machine: StateMachine
