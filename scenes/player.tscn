@@ -1,10 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://tbhrrj3nihxl"]
+[gd_scene load_steps=14 format=3 uid="uid://tbhrrj3nihxl"]
 
 [ext_resource type="Script" uid="uid://c4drvv47awrj0" path="res://scripts/character.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://4rau8u2274ol" path="res://scripts/input_handler.gd" id="2_g2els"]
 [ext_resource type="Script" uid="uid://bav3sxpcv1ott" path="res://scripts/state_machine.gd" id="2_qhqgy"]
+[ext_resource type="Script" uid="uid://c10trtjcqrrl5" path="res://scripts/states/IdleState.gd" id="3_tuyoq"]
 [ext_resource type="Script" uid="uid://bpbouw2s5yiq5" path="res://scripts/kitsune.gd" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://ce74eo32vvbgb" path="res://scripts/states/JumpingState.gd" id="4_fjrip"]
 [ext_resource type="Script" uid="uid://dgwvt61msxw4g" path="res://scripts/human.gd" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://cy8bt5yaela0k" path="res://scripts/states/WalkingState.gd" id="5_smehm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
 height = 1.25
@@ -24,6 +27,18 @@ script = ExtResource("1_g2els")
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_qhqgy")
 
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("3_tuyoq")
+metadata/_custom_type_script = "uid://c10trtjcqrrl5"
+
+[node name="JumpingState" type="Node" parent="StateMachine"]
+script = ExtResource("4_fjrip")
+metadata/_custom_type_script = "uid://ce74eo32vvbgb"
+
+[node name="WalkingState" type="Node" parent="StateMachine"]
+script = ExtResource("5_smehm")
+metadata/_custom_type_script = "uid://cy8bt5yaela0k"
+
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("2_g2els")
 
@@ -38,8 +53,6 @@ shape = SubResource("CapsuleShape3D_qhqgy")
 
 [node name="Kitsune" type="Node3D" parent="."]
 script = ExtResource("4_dqkch")
-kitsune_move_speed = 2.0
-kitsune_jump_height = 2.0
 
 [node name="KitsuneVisuals" type="Node3D" parent="Kitsune"]
 

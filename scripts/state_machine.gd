@@ -6,20 +6,21 @@ enum Form {HUMAN, KITSUNE}
 
 # export vars
 @export var current_form: Form = Form.KITSUNE
-@export var initial_state_key: StringName = &"Idle"
+@export var initial_state_key: StringName = &"IdleState"
 
 # onready vars
-@onready var character: CharacterBody3D = get_parent() #state machine should be a child of the char
+@onready var character: Character = get_parent() #state machine should be a child of the char
 @onready var input_handler: InputHandler = character.get_node("InputHandler")
 
 # internal vars
-var states: Dictionary #dict of all states
+var states: Dictionary = {} #dict of all states
 var current_state: State
 
 # useful bools for all states to change
 var can_jump := true
 var can_dash := true
 var can_sprint := true
+var can_swap := true
 
 func _ready() -> void:
 	# Find child states
@@ -40,18 +41,15 @@ func _ready() -> void:
 		current_state = states[initial_state_key]
 		print("Entering init State: ", current_state.name)
 		current_state.enter()
-	elif not states.is_empty():
-		printerr("Initial state not found. Falling back to first state.")
-		states[0].enter() #fallback idk if it works
-	else:
+	elif states.is_empty():
 		printerr("No states found.")
 	
 	# Connect signals from InputHandler
-	var input_handler = character.get_node("InputHandler")
 	input_handler.move.connect(_on_move)
 	input_handler.action_jump.connect(_on_jump)
 	input_handler.action_attack.connect(_on_attack)
 	input_handler.action_interact.connect(_on_interact)
+	input_handler.action_sprint.connect(_on_sprint)
 	input_handler.action_dash.connect(_on_dash)
 	input_handler.action_form_swap.connect(_on_form_swap)
 	input_handler.rotate_camera.connect(_on_camera_rotate)
@@ -62,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		current_state.physics_update(delta)
 	
 	#DEBUG
-	print("Current State: ", current_state.name if current_state else "None")
+	#print("Current State: ", current_state.name if current_state else "None")
 
 func transition_to(target_state_key: StringName) -> void:
 	# Handled by children so this is error handling
@@ -90,41 +88,44 @@ func transition_to(target_state_key: StringName) -> void:
 	########## AI GENERATED (BUT EDITED) CODE ABOVE ############
 
 func _on_move(direction: Vector3) -> void:
-	# Attempt to move
+	# update our desired direction, but the other states
+	# will move the character on physics tick for us
+	# if we are allowed to
 	character.set_intended_direction(direction)
 
 func _on_jump() -> void:
 	# Attempt to jump
-	if not can_jump:
+	if can_jump:
 		#inside the state is character.jump() and setting the bools
-		transition_to(&"Jumping")
+		transition_to(&"JumpingState")
 	else:
 		print("Can't jump.")
 
 func _on_dash() -> void:
 	# attempt to dash
 	if can_dash:
-		transition_to(&"Dashing")
+		transition_to(&"DashingState")
 	else:
 		print("Can't dash.")
 
 func _on_attack() -> void:
-	transition_to(&"Attacking")
+	transition_to(&"AttackingState")
 
 func _on_sprint() -> void:
-	transition_to(&"Sprinting")
+	transition_to(&"SprintingState")
 
 func _on_interact() -> void:
-	transition_to(&"Interacting")
+	transition_to(&"InteractingState")
 
 func _on_form_swap() -> void:
-	if current_form == Form.HUMAN:
-		current_form = Form.KITSUNE
-	else:
-		current_form = Form.HUMAN
-	character.swap_form(current_form) # Call function on CharacterBody3D and to set new form.
-	transition_to(&"Swapping")
-	print("Form swapped to: ", Form.keys()[current_form])
+	if can_swap:
+		if current_form == Form.HUMAN:
+			current_form = Form.KITSUNE
+		else:
+			current_form = Form.HUMAN
+		character.swap_form(current_form) # Call function on CharacterBody3D and to set new form.
+		transition_to(&"SwappingState")
+		print("Form swapped to: ", Form.keys()[current_form])
 
 func _on_camera_rotate(amount,delta) -> void:
 	#debug
