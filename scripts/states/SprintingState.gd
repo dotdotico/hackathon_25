@@ -20,8 +20,8 @@ func physics_update(_delta: float) -> void:
 				transition_to(&"MovingState")
 			else:
 				transition_to(&"IdleState")
-		else:
-			transition_to(&"FallingState")
+	elif not character.is_on_floor():
+		transition_to(&"FallingState")
 
 func exit() -> void:
 	#print("Sprint: Exit")

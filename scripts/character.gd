@@ -22,6 +22,9 @@ class_name GameCharacter
 @onready var kitsune_collider: CollisionShape3D = $KitsuneCollider
 @onready var kitsune_anim_player: AnimationPlayer = $Kitsune/KitsuneAnimationPlayer
 
+# visual junk
+@onready var double_jump_particles:GPUParticles3D = $DJ_PARTICLE
+
 # internal vars
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var gravity_scale := 1.0
@@ -46,6 +49,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_form_functions()
 	swap_collider() # Added
+	#anim_player.connect("animation_finished", self._on_animation_finished)
 
 func set_form_functions() -> void:
 	if state_machine.current_form == state_machine.Form.HUMAN:

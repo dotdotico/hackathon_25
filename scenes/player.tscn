@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://tbhrrj3nihxl"]
+[gd_scene load_steps=20 format=3 uid="uid://tbhrrj3nihxl"]
 
 [ext_resource type="Script" uid="uid://c4drvv47awrj0" path="res://scripts/character.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://4rau8u2274ol" path="res://scripts/input_handler.gd" id="2_g2els"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://7pg2wf203o5n" path="res://scripts/states/SprintingState.gd" id="8_d2wvv"]
 [ext_resource type="Script" uid="uid://cepkc74a3tp5y" path="res://scripts/states/SwappingState.gd" id="9_3v2ag"]
 [ext_resource type="Script" uid="uid://ulp3c2r8ekfd" path="res://scripts/states/DoubleJumpState.gd" id="10_jej6c"]
+[ext_resource type="PackedScene" uid="uid://dndic7qflpvkj" path="res://scenes/particles/dj_particle.tscn" id="13_f1ej7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_g2els"]
 height = 1.25
@@ -119,3 +120,7 @@ spring_length = 3.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivotYaw/CameraPivotPitch/SpringArm3D"]
 fov = 90.0
+
+[node name="DJ_PARTICLE" parent="." instance=ExtResource("13_f1ej7")]
+emitting = false
+amount = 10

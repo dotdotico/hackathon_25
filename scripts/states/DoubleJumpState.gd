@@ -11,7 +11,11 @@ func enter() -> void:
 	state_machine.can_jump = false
 	jump_held = true
 	character.set_gravity_scale(1.0)
-
+	var particles:GPUParticles3D = character.double_jump_particles
+	particles.emitting = true
+	await get_tree().create_timer(particles.lifetime - 0.1).timeout
+	particles.emitting = false
+	
 func physics_update(delta: float) -> void:
 	var direction = state_machine.input_handler.move_direction
 	
