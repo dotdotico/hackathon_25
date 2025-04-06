@@ -4,7 +4,7 @@ class_name State
 
 # needed vars by each state
 var state_machine: StateMachine
-var character: Character
+var character: GameCharacter
 var anim_player: AnimationPlayer
 
 # basic functions

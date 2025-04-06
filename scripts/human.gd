@@ -2,7 +2,7 @@ extends Node
 
 @onready var character: CharacterBody3D = get_parent()
 
-@export var human_move_speed: float = 8.0
+@export var human_move_speed: float = 6.0
 @export var human_jump_height: float = 2.5
 
 # internal vars

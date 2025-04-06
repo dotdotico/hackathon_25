@@ -28,6 +28,7 @@ var gravity_scale := 1.0
 var target_velocity := Vector3.ZERO
 var target_direction := Vector3.ZERO
 var sprint_multiplier:float = 1.0
+var anim_player:AnimationPlayer
 
 # declare callable funcs
 var current_jump_func: Callable
@@ -56,6 +57,7 @@ func set_form_functions() -> void:
 		current_interact_func = human.human_interact
 		visuals = human.get_node("HumanVisuals")
 		move_speed = human.human_move_speed
+		anim_player = human_anim_player
 	elif state_machine.current_form == state_machine.Form.KITSUNE:
 		current_jump_func = kitsune.kitsune_jump
 		current_attack_func = kitsune.kitsune_attack
@@ -65,6 +67,7 @@ func set_form_functions() -> void:
 		current_interact_func = kitsune.kitsune_interact
 		visuals = kitsune.get_node("KitsuneVisuals")
 		move_speed = kitsune.kitsune_move_speed
+		anim_player = kitsune_anim_player
 
 func swap_collider():
 	human_collider.disabled = kitsune.visible
@@ -80,7 +83,6 @@ func _physics_process(delta: float) -> void:
 	if abs(velocity.z) < 0.01:
 		velocity.z = 0
 	move_and_slide()
-	print(sprint_multiplier)
 
 func on_camera_rotate(amount:Vector2, delta:float) -> void:
 	var sens = mouse_look_sensitivity

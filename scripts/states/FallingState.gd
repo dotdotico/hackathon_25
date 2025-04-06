@@ -6,7 +6,7 @@ class_name FallingState
 @export var gravity_scale_falling := 3.0
 
 func enter() -> void:
-	print("FallingState entered")
+	#print("Falling")
 	character.set_gravity_scale(gravity_scale_falling)
 
 func physics_update(delta:float) -> void:
@@ -17,6 +17,9 @@ func physics_update(delta:float) -> void:
 	
 	if character.is_on_floor():
 		transition_to(&"MovingState")
+	
+	if Input.is_action_pressed("action_jump") and state_machine.can_jump:
+		transition_to(&"DoubleJumpState")
 	
 	#enable movement
 	state_machine._on_move(direction, delta)

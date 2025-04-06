@@ -3,7 +3,7 @@ extends State
 class_name MovingState
 
 func enter() -> void:
-	print("MovingState entered")
+	#print("MovingState entered")
 	state_machine.can_jump = true
 	state_machine.can_dash = true
 
@@ -23,4 +23,5 @@ func physics_update(delta:float) -> void:
 	state_machine._on_move(direction, delta)
 
 func exit() -> void:
+	#print("MovingState: Exit")
 	pass
