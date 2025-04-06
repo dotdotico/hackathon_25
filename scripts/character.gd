@@ -7,9 +7,9 @@ class_name Character
 @export var sprint_multiplier:float = 2.0
 @export var crouch_multiplier:float = 0.5
 @export var acceleration:float = 5.0
-@export var deceleration:float = 15.0
+@export var deceleration:float = 5.0
 @export var air_deceleration:float = 5.0
-@export var rotation_speed:float = 8.0 #used by children
+@export var rotation_speed:float = 8.0
 
 # onready vars, node references
 @onready var input_handler: Node = $InputHandler

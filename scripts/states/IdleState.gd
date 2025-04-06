@@ -9,14 +9,13 @@ func enter() -> void:
 	pass
 
 func physics_update(_delta: float) -> void:
-	
-	
 	# Not on floor check
 	if not character.is_on_floor():
 		transition_to(&"FallingState")
 		return # Exit early	
-	# Want to move check
-	if state_machine.input_handler.move_direction.length_squared() >= 0.01:
+
+	# move check
+	if character.is_on_floor() and character.velocity.length_squared() >= 0.01:
 		transition_to(&"MovingState") # Transition to moving state if we "want" to move
 		
 
