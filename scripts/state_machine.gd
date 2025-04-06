@@ -87,17 +87,14 @@ func transition_to(target_state_key: StringName) -> void:
 	current_state.enter()
 	########## AI GENERATED (BUT EDITED) CODE ABOVE ############
 
-func _on_move(direction: Vector3) -> void:
-	# update our desired direction, but the other states
-	# will move the character on physics tick for us
-	# if we are allowed to
-	character.set_intended_direction(direction)
+func _on_move(direction: Vector3, delta:float) -> void:
+	character.on_move(direction, delta)
 
 func _on_jump() -> void:
 	# Attempt to jump
 	if can_jump:
-		#inside the state is character.jump() and setting the bools
-		transition_to(&"JumpingState")
+		character.jump()
+		transition_to(&"MovingState")
 	else:
 		print("Can't jump.")
 

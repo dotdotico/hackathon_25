@@ -12,11 +12,12 @@ signal action_interact()
 signal action_attack()
 signal action_form_swap()
 
+var move_direction:Vector3
+
 func _physics_process(delta: float) -> void:
 	var input_vector = Input.get_vector("move_left", "move_right", "move_backward", "move_forward")
-	if input_vector != Vector2.ZERO:
-		var move_direction = Vector3(input_vector.x, 0, input_vector.y)
-		emit_signal("move", move_direction.normalized())
+	move_direction = Vector3(input_vector.x, 0, input_vector.y).normalized()
+	emit_signal("move", move_direction, delta)
 
 	if Input.is_action_just_pressed("action_jump"):
 		emit_signal("action_jump")
@@ -28,6 +29,8 @@ func _physics_process(delta: float) -> void:
 		emit_signal("action_sprint")
 	if Input.is_action_just_pressed("action_interact"):
 		emit_signal("action_interact")
+	if Input.is_action_just_pressed("action_attack"):
+		emit_signal("action_attack")
 	if Input.is_action_just_pressed("action_form_swap"):
 		emit_signal("action_form_swap")
 

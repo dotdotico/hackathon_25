@@ -39,4 +39,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.645608, -0.290972, -0.0190
 polygon = PackedVector2Array(-0.405, -0.18, -0.8, 2.055, 1, 1, 1.81, 0.57)
 
 [node name="Player" parent="." instance=ExtResource("1_jbqir")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.93623, 0.0167537, 3.11596)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.93623, 0.866972, 3.11596)

@@ -6,9 +6,9 @@ class_name Character
 @export var gamepad_look_sensitivity:float = 5
 @export var sprint_multiplier:float = 2.0
 @export var crouch_multiplier:float = 0.5
-@export var acceleration:float = 10.0
+@export var acceleration:float = 5.0
 @export var deceleration:float = 15.0
-@export var air_deceleration:float = 3.0
+@export var air_deceleration:float = 5.0
 @export var rotation_speed:float = 8.0 #used by children
 
 # onready vars, node references
@@ -25,10 +25,6 @@ class_name Character
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var gravity_scale := 1.0
 var target_velocity := Vector3.ZERO
-var move_speed := 1.0
-#var dash_direction := Vector3.ZERO
-var has_movement_input := false
-var intended_direction := Vector3.ZERO
 
 # declare callable funcs
 var current_jump_func: Callable
@@ -37,6 +33,7 @@ var current_dash_func: Callable
 var current_sprint_func: Callable
 var current_crouch_func: Callable
 var current_interact_func: Callable
+var move_speed: float
 
 # declare changeable node refs
 var visuals: Node3D
@@ -55,6 +52,7 @@ func set_form_functions() -> void:
 		current_crouch_func = human.human_crouch
 		current_interact_func = human.human_interact
 		visuals = human.get_node("HumanVisuals")
+		move_speed = human.human_move_speed
 	elif state_machine.current_form == state_machine.Form.KITSUNE:
 		current_jump_func = kitsune.kitsune_jump
 		current_attack_func = kitsune.kitsune_attack
@@ -63,6 +61,7 @@ func set_form_functions() -> void:
 		current_crouch_func = kitsune.kitsune_crouch
 		current_interact_func = kitsune.kitsune_interact
 		visuals = kitsune.get_node("KitsuneVisuals")
+		move_speed = kitsune.kitsune_move_speed
 
 func swap_collider():
 	human_collider.disabled = kitsune.visible
@@ -70,11 +69,21 @@ func swap_collider():
 
 func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
-	var deceleration_value = deceleration if is_on_floor() else air_deceleration
-	velocity.x = lerp(velocity.x, target_velocity.x, (acceleration if has_movement_input else deceleration_value) * delta)
-	velocity.z = lerp(velocity.z, target_velocity.z, (acceleration if has_movement_input else deceleration_value) * delta)
+	
+	#deceleration
+	if is_on_floor():
+		velocity.x = lerp(velocity.x, 0.0, deceleration * delta)
+		velocity.z = lerp(velocity.z, 0.0, deceleration * delta)
+	else:
+		velocity.x = lerp(velocity.x, 0.0, air_deceleration * delta)
+		velocity.z = lerp(velocity.z, 0.0, air_deceleration * delta)
+	
+	if abs(velocity.x) < 0.01:
+		velocity.x = 0
+	if abs(velocity.z) < 0.01:
+		velocity.z = 0
+	
 	move_and_slide()
-	has_movement_input = false # stop processing input for this frame
 
 func on_camera_rotate(amount:Vector2, delta:float) -> void:
 	var sens = mouse_look_sensitivity
@@ -85,32 +94,24 @@ func on_camera_rotate(amount:Vector2, delta:float) -> void:
 	camera_pivot_pitch.rotate_x(amount.y * sens * delta)
 	camera_pivot_pitch.rotation.x = clamp(camera_pivot_pitch.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 
-func set_intended_direction(direction: Vector3) -> void:
-	intended_direction = direction
-	has_movement_input = true # we have move input here
-
-func get_intended_direction() -> Vector3:
-	return intended_direction
-
-func character_move(move_direction: Vector3, delta: float) -> void:
-	if move_direction:
-		var camera_forward: Vector3 = camera_pivot_pitch.global_transform.basis.z * -1
-		camera_forward.y = 0
-		camera_forward = camera_forward.normalized()
-		var camera_right: Vector3 = camera_pivot_pitch.global_transform.basis.x
-		camera_right.y = 0
-		camera_right = camera_right.normalized()
-		var relative_movement_direction: Vector3 = camera_forward * move_direction.z + camera_right * move_direction.x
-		relative_movement_direction.y = 0
-		relative_movement_direction = relative_movement_direction
-		
-		if relative_movement_direction != Vector3.ZERO:
-			var target_rotation: float = -atan2(relative_movement_direction.z, relative_movement_direction.x)
-			target_rotation -= PI / 2.0
-			visuals.rotation.y = lerp_angle(visuals.rotation.y, target_rotation, rotation_speed*delta)
-		var target_movedir: Vector3 = relative_movement_direction * move_speed
-		target_velocity.x = target_movedir.x
-		target_velocity.z = target_movedir.z
+func on_move(move_direction: Vector3, delta: float) -> void:
+	var camera_forward: Vector3 = camera_pivot_pitch.global_transform.basis.z * -1
+	camera_forward.y = 0
+	camera_forward = camera_forward.normalized()
+	var camera_right: Vector3 = camera_pivot_pitch.global_transform.basis.x
+	camera_right.y = 0
+	camera_right = camera_right.normalized()
+	var relative_movement_direction: Vector3 = camera_forward * move_direction.z + camera_right * move_direction.x
+	relative_movement_direction.y = 0
+	relative_movement_direction = relative_movement_direction.normalized()
+	
+	if relative_movement_direction != Vector3.ZERO:
+		var target_rotation: float = -atan2(relative_movement_direction.z, relative_movement_direction.x)
+		target_rotation -= PI / 2.0
+		visuals.rotation.y = lerp_angle(visuals.rotation.y, target_rotation, rotation_speed*delta)
+	target_velocity = relative_movement_direction * move_speed
+	velocity.x = lerp(velocity.x, target_velocity.x, acceleration * delta)
+	velocity.z = lerp(velocity.z, target_velocity.z, acceleration * delta)
 
 func jump() -> void:
 	current_jump_func.call()
@@ -135,11 +136,10 @@ func swap_form(new_form:StateMachine.Form):
 	if new_form == state_machine.Form.KITSUNE:
 		kitsune.visible = true
 		human.visible = false
-		move_speed = kitsune.kitsune_move_speed
 	else:
 		human.visible = true
 		kitsune.visible = false
-		move_speed = human.kitsune_move_speed
+
 	set_form_functions()
 	swap_collider()
 

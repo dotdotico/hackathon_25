@@ -44,7 +44,6 @@ script = ExtResource("2_g2els")
 
 [node name="Kitsune" type="Node3D" parent="."]
 script = ExtResource("4_dqkch")
-kitsune_move_speed = 20.0
 
 [node name="KitsuneVisuals" type="Node3D" parent="Kitsune"]
 
@@ -68,7 +67,8 @@ shape = SubResource("CapsuleShape3D_qlg0r")
 [node name="Human" type="Node3D" parent="."]
 visible = false
 script = ExtResource("5_qlg0r")
-human_move_speed = 15.0
+human_move_speed = 1.0
+human_jump_height = 2.5
 
 [node name="HumanVisuals" type="Node3D" parent="Human"]
 
