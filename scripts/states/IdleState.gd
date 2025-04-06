@@ -12,7 +12,6 @@ func physics_update(_delta: float) -> void:
 	# Not on floor check
 	if not character.is_on_floor() and character.velocity.y < 0.0:
 		transition_to(&"FallingState")
-		return # Exit early
 
 	# move check
 	if character.is_on_floor() and character.velocity.length_squared() >= 0.01:

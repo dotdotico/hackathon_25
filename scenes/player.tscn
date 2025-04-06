@@ -75,6 +75,8 @@ mesh = SubResource("PrismMesh_g2els")
 transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 0.28929, 0.149377, 1.20509, -0.128927)
 mesh = SubResource("PrismMesh_g2els")
 
+[node name="KitsuneAnimationPlayer" type="AnimationPlayer" parent="Kitsune"]
+
 [node name="KitsuneCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
 shape = SubResource("CapsuleShape3D_qlg0r")
@@ -89,6 +91,8 @@ script = ExtResource("5_qlg0r")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_qlg0r")
 skeleton = NodePath("../../..")
+
+[node name="HumanAnimationPlayer" type="AnimationPlayer" parent="Human"]
 
 [node name="HumanCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

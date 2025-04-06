@@ -1,5 +1,5 @@
 extends CharacterBody3D
-class_name Character
+class_name GameCharacter
 
 # Exported variables for tuning movement
 @export var mouse_look_sensitivity:float = 0.01
@@ -7,7 +7,7 @@ class_name Character
 @export var crouch_multiplier:float = 0.5
 @export var acceleration:float = 15.0
 @export var deceleration:float = 20.0
-@export var air_deceleration:float = 0.5
+@export var air_deceleration:float = 1.0
 @export var rotation_speed:float = 10.0
 
 # onready vars, node references
@@ -16,9 +16,11 @@ class_name Character
 @onready var camera_pivot_pitch: Node3D = $CameraPivotYaw/CameraPivotPitch
 @onready var state_machine: Node = $StateMachine
 @onready var human: Node3D = $Human
-@onready var kitsune: Node3D = $Kitsune
 @onready var human_collider: CollisionShape3D = $HumanCollider
+@onready var human_anim_player: AnimationPlayer = $Human/HumanAnimationPlayer
+@onready var kitsune: Node3D = $Kitsune
 @onready var kitsune_collider: CollisionShape3D = $KitsuneCollider
+@onready var kitsune_anim_player: AnimationPlayer = $Kitsune/KitsuneAnimationPlayer
 
 # internal vars
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")

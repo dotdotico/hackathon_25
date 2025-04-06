@@ -4,7 +4,8 @@ class_name State
 
 # needed vars by each state
 var state_machine: StateMachine
-var character: CharacterBody3D
+var character: Character
+var anim_player: AnimationPlayer
 
 # basic functions
 func enter() -> void:

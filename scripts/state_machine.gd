@@ -9,12 +9,13 @@ enum Form {HUMAN, KITSUNE}
 @export var initial_state_key: StringName = &"IdleState"
 
 # onready vars
-@onready var character: Character = get_parent() #state machine should be a child of the char
+@onready var character: GameCharacter = get_parent() #state machine should be a child of the char
 @onready var input_handler: InputHandler = character.get_node("InputHandler")
 
 # internal vars
 var states: Dictionary = {} #dict of all states
 var current_state: State
+var anim_player: AnimationPlayer
 
 # useful bools for all states to change
 var can_jump := true
@@ -31,6 +32,7 @@ func _ready() -> void:
 			# Deliver important references to the child State nodes
 			state_node.state_machine = self
 			state_node.character = self.character
+			state_node.anim_player = self.anim_player
 			print("Registered State: ", state_node.name)
 		else:
 			printerr("Warning: Child '", child.name, "' of StateMachine is not a State.")
@@ -53,6 +55,9 @@ func _ready() -> void:
 	input_handler.action_dash.connect(_on_dash)
 	input_handler.action_form_swap.connect(_on_form_swap)
 	input_handler.rotate_camera.connect(_on_camera_rotate)
+	
+	# Find current animation player as defined by the character script
+	anim_player = character.anim_player
 
 func _physics_process(delta: float) -> void:
 	# pass this onto the current state, calling each physics frame
