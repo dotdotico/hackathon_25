@@ -5,8 +5,8 @@ class_name Character
 @export var mouse_look_sensitivity:float = 0.01
 @export var gamepad_look_sensitivity:float = 5
 @export var crouch_multiplier:float = 0.5
-@export var acceleration:float = 3.0
-@export var deceleration:float = 5.0
+@export var acceleration:float = 15.0
+@export var deceleration:float = 20.0
 @export var air_deceleration:float = 0.5
 @export var rotation_speed:float = 10.0
 
@@ -78,6 +78,7 @@ func _physics_process(delta: float) -> void:
 	if abs(velocity.z) < 0.01:
 		velocity.z = 0
 	move_and_slide()
+	print(sprint_multiplier)
 
 func on_camera_rotate(amount:Vector2, delta:float) -> void:
 	var sens = mouse_look_sensitivity

@@ -13,9 +13,7 @@ func enter() -> void:
 	character.sprint_multiplier = sprint_multiplier
 
 func physics_update(delta: float) -> void:
-	if false:
-		pass
-	else:
+	if not Input.is_action_pressed("action_sprint"):
 		# move check
 		if character.is_on_floor():
 			if character.velocity.length_squared() >= 0.01:
@@ -27,5 +25,8 @@ func physics_update(delta: float) -> void:
 
 func exit() -> void:
 	print("Sprint: Exit")
+	state_machine.can_jump = true
 	state_machine.can_sprint = true
+	state_machine.can_dash = true
+	state_machine.can_swap = true
 	character.sprint_multiplier = 1.0

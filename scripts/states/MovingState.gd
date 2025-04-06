@@ -17,6 +17,8 @@ func physics_update(delta:float) -> void:
 		transition_to(&"IdleState") # Transition to idle
 		return
 	
+	if Input.is_action_pressed("action_sprint"):
+		transition_to(&"SprintingState")
 	#enable movement
 	state_machine._on_move(direction, delta)
 

@@ -100,9 +100,10 @@ func _on_jump() -> void:
 		print("Can't jump.")
 
 func _on_dash() -> void:
-	#HARD CODED OVERRIDE, WE CAN ALWAYS TRY TO JUMP NO MATTER THE STATE
+	#HARD CODED OVERRIDE, WE CAN ALWAYS TRY TO DASH NO MATTER THE STATE
 	# Attempt to dash
 	if can_dash:
+		character.dash()
 		transition_to(&"DashingState")
 	else:
 		print("Can't dash.")
@@ -115,7 +116,10 @@ func _on_attack() -> void:
 
 func _on_sprint() -> void:
 	if can_sprint:
+		character.sprint()
 		transition_to(&"SprintingState")
+	else:
+		print("Can't sprint.")
 
 func _on_interact() -> void:
 	pass
