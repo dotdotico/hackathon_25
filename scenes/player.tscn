@@ -13,17 +13,14 @@
 [ext_resource type="Script" uid="uid://7pg2wf203o5n" path="res://scripts/states/SprintingState.gd" id="8_d2wvv"]
 [ext_resource type="Script" uid="uid://cepkc74a3tp5y" path="res://scripts/states/SwappingState.gd" id="9_3v2ag"]
 [ext_resource type="Script" uid="uid://ulp3c2r8ekfd" path="res://scripts/states/DoubleJumpState.gd" id="10_jej6c"]
+[ext_resource type="PackedScene" uid="uid://b5hlh3rl7ptxj" path="res://assets/player/kitsune/kitsune.tscn" id="13_a8ls1"]
 [ext_resource type="PackedScene" uid="uid://dndic7qflpvkj" path="res://scenes/particles/dj_particle.tscn" id="13_f1ej7"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_g2els"]
-height = 1.25
-
-[sub_resource type="PrismMesh" id="PrismMesh_g2els"]
+[ext_resource type="PackedScene" uid="uid://dkdbenohcq6ch" path="res://assets/player/human/human.tscn" id="14_oprun"]
+[ext_resource type="PackedScene" uid="uid://cml181jpmjs77" path="res://scenes/particles/particlesmorph.tscn" id="17_qfm1y"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
+radius = 0.3
 height = 1.25
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_qlg0r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qhqgy"]
 
@@ -32,6 +29,7 @@ script = ExtResource("1_g2els")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_qhqgy")
+current_form = 0
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("3_tuyoq")
@@ -73,37 +71,53 @@ script = ExtResource("4_dqkch")
 
 [node name="KitsuneVisuals" type="Node3D" parent="Kitsune"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Kitsune/KitsuneVisuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
-mesh = SubResource("CapsuleMesh_g2els")
-skeleton = NodePath("../../..")
+[node name="lp_fox" parent="Kitsune/KitsuneVisuals" instance=ExtResource("13_a8ls1")]
+transform = Transform3D(-0.240216, 0, 2.10004e-08, 0, 0.240216, 0, -2.10004e-08, 0, -0.240216, 0, 0, 0)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Kitsune/KitsuneVisuals"]
-transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 0.28929, -0.154141, 1.20509, -0.128243)
-mesh = SubResource("PrismMesh_g2els")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Kitsune/KitsuneVisuals"]
-transform = Transform3D(0.287611, 0, 0, 0, 0.215298, 0, 0, 0, 0.28929, 0.149377, 1.20509, -0.128927)
-mesh = SubResource("PrismMesh_g2els")
-
-[node name="KitsuneAnimationPlayer" type="AnimationPlayer" parent="Kitsune"]
+[node name="AnimationPlayer" parent="Kitsune/KitsuneVisuals/lp_fox" index="1"]
+speed_scale = 2.0
 
 [node name="KitsuneCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.625, 0)
 shape = SubResource("CapsuleShape3D_qlg0r")
 
 [node name="Human" type="Node3D" parent="."]
-visible = false
 script = ExtResource("5_qlg0r")
 
 [node name="HumanVisuals" type="Node3D" parent="Human"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Human/HumanVisuals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_qlg0r")
-skeleton = NodePath("../../..")
+[node name="human" parent="Human/HumanVisuals" instance=ExtResource("14_oprun")]
+transform = Transform3D(-1.86376, 0, -1.62935e-07, 0, 1.86376, 0, 1.62935e-07, 0, -1.86376, 0, 0, 0)
 
-[node name="HumanAnimationPlayer" type="AnimationPlayer" parent="Human"]
+[node name="Skeleton3D" parent="Human/HumanVisuals/human/idle" index="0"]
+bones/0/position = Vector3(0, 0.344072, -56.7175)
+bones/0/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
+bones/1/rotation = Quaternion(-0.0732927, 0, 0, 0.99731)
+bones/2/rotation = Quaternion(1.08033e-07, 0, 0, 1)
+bones/3/rotation = Quaternion(-6.33299e-08, 0, 0, 1)
+bones/4/rotation = Quaternion(0.0732927, 0, 0, 0.99731)
+bones/5/rotation = Quaternion(0, 0, 0, 1)
+bones/7/rotation = Quaternion(-0.59016, -0.34726, 0.658219, -0.312841)
+bones/8/position = Vector3(0, 8.9903, 7.03335e-06)
+bones/8/rotation = Quaternion(0.250859, 0.067122, -0.0174387, 0.965536)
+bones/9/rotation = Quaternion(0.057141, 0.00798626, 0.138201, 0.988722)
+bones/11/rotation = Quaternion(0.594, -0.344973, 0.655272, 0.314286)
+bones/12/position = Vector3(7.15256e-07, 8.99031, -1.49012e-06)
+bones/12/rotation = Quaternion(0.250993, -0.0605944, 0.0157446, 0.965962)
+bones/13/position = Vector3(-4.14904e-07, 10.4942, -2.92063e-06)
+bones/13/rotation = Quaternion(0.0572064, -0.00744831, -0.128887, 0.98998)
+bones/15/rotation = Quaternion(-0.00156068, -0.0255831, 0.997817, -0.0608715)
+bones/16/rotation = Quaternion(-0.0611525, -5.90433e-05, 0.000987193, 0.998128)
+bones/17/rotation = Quaternion(0.618448, 0.0792172, -0.0628668, 0.779291)
+bones/18/rotation = Quaternion(0.239681, 0.0746736, -0.0184934, 0.967799)
+bones/20/rotation = Quaternion(0.00160475, -0.0263044, 0.997798, 0.0608659)
+bones/21/rotation = Quaternion(-0.0717495, 6.48303e-05, -0.000905818, 0.997422)
+bones/22/position = Vector3(-1.17719e-06, 22.6421, -3.42727e-07)
+bones/22/rotation = Quaternion(0.635678, -0.0729674, 0.0605446, 0.766109)
+bones/23/rotation = Quaternion(0.229808, -0.0911464, 0.0216226, 0.968717)
+
+[node name="AnimationPlayer" parent="Human/HumanVisuals/human" index="1"]
+movie_quit_on_finish = true
 
 [node name="HumanCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -116,7 +130,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47193, 0)
 [node name="CameraPivotPitch" type="Node3D" parent="CameraPivotYaw"]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivotYaw/CameraPivotPitch"]
-spring_length = 3.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00559831, 0.00576496, 0.515738)
+spring_length = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivotYaw/CameraPivotPitch/SpringArm3D"]
 fov = 90.0
@@ -124,3 +139,8 @@ fov = 90.0
 [node name="DJ_PARTICLE" parent="." instance=ExtResource("13_f1ej7")]
 emitting = false
 amount = 10
+
+[node name="morphpart" parent="." instance=ExtResource("17_qfm1y")]
+
+[editable path="Kitsune/KitsuneVisuals/lp_fox"]
+[editable path="Human/HumanVisuals/human"]

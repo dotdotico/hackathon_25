@@ -17,13 +17,14 @@ class_name GameCharacter
 @onready var state_machine: Node = $StateMachine
 @onready var human: Node3D = $Human
 @onready var human_collider: CollisionShape3D = $HumanCollider
-@onready var human_anim_player: AnimationPlayer = $Human/HumanAnimationPlayer
+@onready var human_anim_player: AnimationPlayer = $Human/HumanVisuals/human/AnimationPlayer
 @onready var kitsune: Node3D = $Kitsune
 @onready var kitsune_collider: CollisionShape3D = $KitsuneCollider
-@onready var kitsune_anim_player: AnimationPlayer = $Kitsune/KitsuneAnimationPlayer
+@onready var kitsune_anim_player: AnimationPlayer = $Kitsune/KitsuneVisuals/lp_fox/AnimationPlayer
 
 # visual junk
 @onready var double_jump_particles:GPUParticles3D = $DJ_PARTICLE
+@onready var morphs:Node3D= $morphpart
 
 # internal vars
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -31,7 +32,7 @@ var gravity_scale := 1.0
 var target_velocity := Vector3.ZERO
 var target_direction := Vector3.ZERO
 var sprint_multiplier:float = 1.0
-var anim_player:AnimationPlayer
+@onready var anim_player:AnimationPlayer
 
 # declare callable funcs
 var current_jump_func: Callable
@@ -49,7 +50,6 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_form_functions()
 	swap_collider() # Added
-	#anim_player.connect("animation_finished", self._on_animation_finished)
 
 func set_form_functions() -> void:
 	if state_machine.current_form == state_machine.Form.HUMAN:
@@ -62,7 +62,11 @@ func set_form_functions() -> void:
 		visuals = human.get_node("HumanVisuals")
 		move_speed = human.human_move_speed
 		anim_player = human_anim_player
+		human.visible = true
+		kitsune.visible = false
 	elif state_machine.current_form == state_machine.Form.KITSUNE:
+		kitsune.visible = true
+		human.visible = false
 		current_jump_func = kitsune.kitsune_jump
 		current_attack_func = kitsune.kitsune_attack
 		current_dash_func = kitsune.kitsune_dash
@@ -72,6 +76,7 @@ func set_form_functions() -> void:
 		visuals = kitsune.get_node("KitsuneVisuals")
 		move_speed = kitsune.kitsune_move_speed
 		anim_player = kitsune_anim_player
+	print(anim_player)
 
 func swap_collider():
 	human_collider.disabled = kitsune.visible

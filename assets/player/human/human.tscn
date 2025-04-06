@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkdbenohcq6ch"]
+
+[ext_resource type="PackedScene" uid="uid://cmofbwwthnjj1" path="res://assets/player/human/human.glb" id="1_ttvr7"]
+
+[node name="human" instance=ExtResource("1_ttvr7")]
+
+[node name="Skeleton3D" parent="idle" index="0"]
+bones/0/position = Vector3(-4.81634, -0.809248, -52.0648)
+bones/0/rotation = Quaternion(-0.690734, -0.248267, 0.232541, 0.638102)
+bones/1/rotation = Quaternion(-0.0228325, 0.041708, -0.0066663, 0.998847)
+bones/2/rotation = Quaternion(0.100643, 0.0829462, -0.00650596, 0.991438)
+bones/3/rotation = Quaternion(0.100643, 0.0829463, -0.00650599, 0.991438)
+bones/4/rotation = Quaternion(0.0357775, -0.0111654, 0.00140142, 0.999296)
+bones/5/rotation = Quaternion(-0.0544206, 0.176966, -0.0129395, 0.982626)
+bones/7/rotation = Quaternion(-0.614768, -0.313458, 0.675692, -0.259314)
+bones/8/position = Vector3(7.33959e-07, 8.99029, -7.12472e-07)
+bones/8/rotation = Quaternion(0.717291, -0.0716141, -0.0538477, 0.690989)
+bones/9/rotation = Quaternion(0.0447816, 0.0409493, 0.530022, 0.84581)
+bones/11/rotation = Quaternion(0.669028, -0.262556, 0.6397, 0.272489)
+bones/12/position = Vector3(2.14427e-06, 8.99031, 5.76474e-06)
+bones/12/rotation = Quaternion(0.664166, -0.00202075, 0.267187, 0.698206)
+bones/13/position = Vector3(5.65544e-06, 10.4942, -4.73201e-07)
+bones/13/rotation = Quaternion(0.113628, 0.0353555, -0.472601, 0.873205)
+bones/15/rotation = Quaternion(0.0601497, 0.228811, 0.958345, -0.160011)
+bones/16/rotation = Quaternion(-0.349303, 0.117643, -0.0242134, 0.92928)
+bones/17/rotation = Quaternion(0.634424, 0.0406096, -0.122057, 0.762207)
+bones/18/rotation = Quaternion(0.260671, 0.0911066, -0.0405629, 0.960263)
+bones/20/rotation = Quaternion(-0.117588, 0.0193768, 0.973105, 0.197138)
+bones/21/rotation = Quaternion(-0.346359, 0.0791157, -0.0162157, 0.934619)
+bones/22/position = Vector3(-8.2002e-07, 22.6421, 1.52746e-07)
+bones/22/rotation = Quaternion(0.751891, 0.0180259, 0.171397, 0.636363)
+bones/23/rotation = Quaternion(0.244502, -0.0908292, 0.0158742, 0.965255)
+
+[node name="geometry_0" parent="idle/Skeleton3D" index="0"]
+layers = 3

@@ -2,12 +2,15 @@
 extends State
 class_name DashingState
 
-@export var dash_timer := 0.4
+@export var dash_timer := 0.42
 @export var dash_force := 50.0
 var dash_duration : float
 var target_direction : Vector3
 
 func enter() -> void:
+	anim_player = character.anim_player
+	if anim_player:
+		anim_player.play(&"pose")
 	#print("Dash: Enter")
 	character.dash()
 	state_machine.can_dash = false
@@ -35,5 +38,5 @@ func physics_update(delta: float) -> void:
 			transition_to(&"FallingState")
 
 func exit() -> void:
+	pass
 	#print("Dash: Exit")
-	state_machine.can_dash = true

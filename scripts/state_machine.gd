@@ -32,7 +32,7 @@ func _ready() -> void:
 			# Deliver important references to the child State nodes
 			state_node.state_machine = self
 			state_node.character = self.character
-			state_node.anim_player = self.anim_player
+#			state_node.anim_player = self.anim_player
 			print("Registered State: ", state_node.name)
 		else:
 			printerr("Warning: Child '", child.name, "' of StateMachine is not a State.")
@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 		current_state.physics_update(delta)
 	
 	#DEBUG
-	print("Current State: ", current_state.name if current_state else "None")
+	#print("Current State: ", current_state.name if current_state else "None")
 
 func transition_to(target_state_key: StringName) -> void:
 	# Handled by children so this is error handling
@@ -137,7 +137,6 @@ func _on_form_swap() -> void:
 			current_form = Form.KITSUNE
 		else:
 			current_form = Form.HUMAN
-		character.swap_form(current_form) # Call function on CharacterBody3D and to set new form.
 		transition_to(&"SwappingState")
 		print("Form swapped to: ", Form.keys()[current_form])
 

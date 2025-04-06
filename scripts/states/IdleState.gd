@@ -9,6 +9,9 @@ func enter() -> void:
 	pass
 
 func physics_update(_delta: float) -> void:
+	anim_player = character.anim_player
+	if anim_player:
+		anim_player.play(&"idle")
 	# Not on floor check
 	if not character.is_on_floor() and character.velocity.y < 0.0:
 		transition_to(&"FallingState")

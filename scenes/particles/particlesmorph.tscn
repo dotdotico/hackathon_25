@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=3 uid="uid://cml181jpmjs77"]
+
+[ext_resource type="Material" uid="uid://bawt6i10vcgi0" path="res://assets/player/kitsune/new_standard_material_3d.tres" id="1_5hb44"]
+[ext_resource type="Material" uid="uid://byts6wc5e80pp" path="res://assets/player/kitsune/new_standard_material_3d2.tres" id="1_vpnj5"]
+
+[sub_resource type="Gradient" id="Gradient_hovsu"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vs0l5"]
+gradient = SubResource("Gradient_hovsu")
+
+[sub_resource type="Curve" id="Curve_jmo2y"]
+_data = [Vector2(0.18913, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.01566), -0.427963, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_eckwo"]
+curve = SubResource("Curve_jmo2y")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f21io"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector3(0, 1, 0)
+spread = 9.474
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+orbit_velocity_min = 2.0
+orbit_velocity_max = 2.0
+radial_velocity_min = 1.99998
+radial_velocity_max = 1.99998
+gravity = Vector3(0, -3, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+radial_accel_min = 2.0
+radial_accel_max = 2.0
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+scale_min = 0.1
+scale_curve = SubResource("CurveTexture_eckwo")
+color = Color(0.311408, 0.213887, 0.272993, 1)
+color_ramp = SubResource("GradientTexture1D_vs0l5")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_0o0ru"]
+material = ExtResource("1_5hb44")
+
+[sub_resource type="SphereMesh" id="SphereMesh_claye"]
+material = ExtResource("1_vpnj5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5hb44"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector3(1, 0.1, 0)
+spread = 0.0
+gravity = Vector3(0, 1, 0)
+scale_min = 0.1
+scale_max = 0.1
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5hb44"]
+shading_mode = 0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SphereMesh" id="SphereMesh_nwv7o"]
+material = SubResource("StandardMaterial3D_5hb44")
+radius = 0.6
+height = 1.2
+
+[node name="morphpart" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+explosiveness = 0.59
+process_material = SubResource("ParticleProcessMaterial_f21io")
+draw_pass_1 = SubResource("SphereMesh_0o0ru")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_f21io")
+draw_pass_1 = SubResource("SphereMesh_claye")
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_5hb44")
+draw_pass_1 = SubResource("SphereMesh_nwv7o")

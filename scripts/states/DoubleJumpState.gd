@@ -6,6 +6,14 @@ var jump_held : bool
 
 # basic functions
 func enter() -> void:
+	anim_player = character.anim_player
+	if anim_player:
+		if anim_player.has_animation(&"airjump"):
+			print('aj')
+			anim_player.play(&"airjump")
+		else:
+			anim_player.play(&"jumping")
+			anim_player.seek(0.0)
 	#print("DJump: Enter")
 	character.jump()
 	state_machine.can_jump = false

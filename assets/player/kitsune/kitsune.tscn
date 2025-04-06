@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5hlh3rl7ptxj"]
+
+[ext_resource type="PackedScene" uid="uid://vpl6wjlsq0gp" path="res://assets/player/kitsune/lp_fox.glb" id="1_0oo2g"]
+
+[node name="lp_fox" instance=ExtResource("1_0oo2g")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(2.98023e-08, -0.324657, -0.902596)
+bones/1/rotation = Quaternion(0.790823, 0.220022, -0.154407, 0.549862)
+bones/2/rotation = Quaternion(-0.515416, 1.07131e-06, 1.23615e-08, 0.85694)
+bones/3/rotation = Quaternion(-0.151985, -0.342769, -0.348112, 0.859202)
+bones/5/rotation = Quaternion(0.790823, -0.220021, 0.154406, 0.549862)
+bones/6/rotation = Quaternion(-0.823475, 1.35052e-08, 1.35052e-08, 0.567352)
+bones/7/rotation = Quaternion(0.332281, -2.97891e-09, -1.88655e-08, 0.94318)
+bones/8/rotation = Quaternion(0.656511, 0.262665, 0.656512, -0.262665)
+bones/9/rotation = Quaternion(0.656511, -0.262665, -0.656512, -0.262665)

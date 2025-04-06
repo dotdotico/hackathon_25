@@ -6,6 +6,9 @@ var jump_held : bool
 
 # basic functions
 func enter() -> void:
+	anim_player = character.anim_player
+	if anim_player:
+		anim_player.play(&"jumping")
 	#print("Jump: Enter")
 	character.jump()
 	jump_held = true

@@ -6,6 +6,9 @@ class_name FallingState
 @export var gravity_scale_falling := 3.0
 
 func enter() -> void:
+	anim_player = character.anim_player
+	if anim_player:
+		anim_player.play(&"falling")
 	#print("Falling")
 	character.set_gravity_scale(gravity_scale_falling)
 
