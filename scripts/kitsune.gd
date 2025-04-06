@@ -16,6 +16,10 @@ func kitsune_attack():
 
 func kitsune_dash():
 	print("Kitsune dash")
+	if character.is_on_floor():
+		print("floor dash")
+	else:
+		print("air dash")
 
 func kitsune_sprint():
 	print("Kitsune sprint")

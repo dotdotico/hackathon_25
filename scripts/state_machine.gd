@@ -21,8 +21,6 @@ var can_jump := true
 var can_dash := true
 var can_sprint := true
 var can_swap := true
-var can_attack := true
-var can_interact := true
 
 func _ready() -> void:
 	# Find child states
@@ -62,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		current_state.physics_update(delta)
 	
 	#DEBUG
-	#print("Current State: ", current_state.name if current_state else "None")
+	print("Current State: ", current_state.name if current_state else "None")
 
 func transition_to(target_state_key: StringName) -> void:
 	# Handled by children so this is error handling
@@ -120,8 +118,9 @@ func _on_sprint() -> void:
 		transition_to(&"SprintingState")
 
 func _on_interact() -> void:
-	if can_interact:
-		transition_to(&"InteractingState")
+	pass
+	#if can_interact:
+	#	transition_to(&"InteractingState")
 
 func _on_form_swap() -> void:
 	if can_swap:

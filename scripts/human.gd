@@ -16,6 +16,10 @@ func human_attack():
 
 func human_dash():
 	print("Human dash")
+	if character.is_on_floor():
+		print("floor dash")
+	else:
+		print("air dash")
 
 func human_sprint():
 	print("Human sprint")

@@ -4,6 +4,8 @@ class_name MovingState
 
 func enter() -> void:
 	print("MovingState entered")
+	state_machine.can_jump = true
+	state_machine.can_dash = true
 
 func physics_update(delta:float) -> void:
 	var direction: Vector3 = state_machine.input_handler.move_direction
