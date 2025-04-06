@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfgntirk46tps"]
+
+[ext_resource type="Texture2D" uid="uid://d2ipcomtiw8rj" path="res://assets/textures/i_yuka.png" id="1_76ss4"]
+[ext_resource type="Script" uid="uid://b1cf8pd8k7gjm" path="res://scenes/flag.gd" id="2_32e5v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_32e5v"]
+albedo_texture = ExtResource("1_76ss4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q38m2"]
+albedo_texture = ExtResource("1_76ss4")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tjkec"]
+radius = 0.365939
+height = 3.66791
+
+[node name="flag" type="StaticBody3D"]
+script = ExtResource("2_32e5v")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+radius = 0.176758
+material = SubResource("StandardMaterial3D_32e5v")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="CSGCombiner3D"]
+transform = Transform3D(1.58085, 0, 0, 0, 1.58085, 0, 0, 0, 0.287125, -0.101006, 1.21735, 0.109199)
+polygon = PackedVector2Array(0, 0, 0, 1, 1, 0)
+material = SubResource("StandardMaterial3D_q38m2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.89164, 0)
+shape = SubResource("CapsuleShape3D_tjkec")
