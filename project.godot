@@ -11,8 +11,16 @@ config_version=5
 [application]
 
 config/name="Hackthon 25 3D Platformer"
-run/main_scene="uid://cpuqy76lywcus"
+run/main_scene="uid://ch3ki66v3uc1q"
 config/features=PackedStringArray("4.4", "Forward Plus")
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=480
+window/size/resizable=false
+window/stretch/mode="viewport"
+window/stretch/scale=2.0
 
 [input]
 
@@ -106,3 +114,7 @@ action_attack={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+anti_aliasing/quality/screen_space_aa=1

@@ -9,12 +9,13 @@ func enter() -> void:
 	#print("MovingState entered")
 	state_machine.can_jump = true
 	state_machine.can_dash = true
+	state_machine.can_swap = true
 
 func physics_update(delta:float) -> void:
 	#anim_player.speed_scale = character.velocity.normalized().length_squared()
 	var direction: Vector3 = state_machine.input_handler.move_direction
 	
-	if character.velocity.y < 0.0:
+	if character.velocity.y < 0.0 and not character.is_on_floor():
 		transition_to(&"FallingState")
 	
 	if character.velocity.length_squared() <= 0.01 and character.is_on_floor():

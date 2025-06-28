@@ -5,10 +5,10 @@ class_name GameCharacter
 @export var mouse_look_sensitivity:float = 0.01
 @export var gamepad_look_sensitivity:float = 5
 @export var crouch_multiplier:float = 0.5
-@export var acceleration:float = 15.0
-@export var deceleration:float = 20.0
-@export var air_deceleration:float = 1.0
-@export var rotation_speed:float = 10.0
+@export var acceleration:float = 8.0
+@export var deceleration:float = 12.0
+@export var air_deceleration:float = 0.6
+@export var rotation_speed:float = 12.0
 
 # onready vars, node references
 @onready var input_handler: Node = $InputHandler
@@ -28,7 +28,7 @@ class_name GameCharacter
 
 # internal vars
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var gravity_scale := 1.0
+var gravity_scale := 1.0 #modified at runtime by movement modes
 var target_velocity := Vector3.ZERO
 var target_direction := Vector3.ZERO
 var sprint_multiplier:float = 1.0

@@ -139,6 +139,8 @@ func _on_form_swap() -> void:
 			current_form = Form.HUMAN
 		transition_to(&"SwappingState")
 		print("Form swapped to: ", Form.keys()[current_form])
+func _get_current_form() -> Form:
+	return current_form
 
 func _on_camera_rotate(amount,delta) -> void:
 	#debug

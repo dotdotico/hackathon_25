@@ -9,7 +9,9 @@ func enter() -> void:
 	if anim_player:
 		anim_player.play(&"swapping")
 	#print("Swap: Enter")
-	state_machine.can_swap = false
+	#state_machine.can_swap = false
+	#state_machine.can_dash = false
+	#state_machine.can_jump = false
 	
 	var morphs:Node3D = character.morphs
 	for particles in morphs.get_children():
@@ -27,7 +29,7 @@ func physics_update(_delta: float) -> void:
 		character.set_gravity_scale(0.0)
 		character.velocity.y = 0
 
-	if swap_is_done:
+	if swap_is_done or (state_machine._get_current_form() == state_machine.Form.HUMAN):
 		#perform transition checks now
 		if character.is_on_floor() and character.velocity.length_squared() >= 0.01:
 			transition_to(&"MovingState") # Transition to moving state if we "want" to move
@@ -37,6 +39,6 @@ func physics_update(_delta: float) -> void:
 func exit() -> void:
 	#print("Swap: Exit")
 	character.set_gravity_scale(1.0)
-	state_machine.can_swap = true
 	character.swap_form(state_machine.current_form) # Call function on CharacterBody3D and to set new form.
+	state_machine.can_swap = true
 	pass

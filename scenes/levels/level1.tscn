@@ -50,6 +50,17 @@ transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, -6.80874, -
 size = Vector3(3, 17, 3.22217)
 material = ExtResource("2_dywbp")
 
+[node name="CSGBox3D12" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, -0.0309954, -61.9907, -11.2939)
+size = Vector3(5.46149, 17, 6.4895)
+material = ExtResource("4_dywbp")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(38.165, 0, 0, 0, 38.165, 0, 0, 0, 38.165, -9.06173, -18.4801, -1.05914)
+operation = 2
+size = Vector3(0.220947, 1.07965, 0.211029)
+material = ExtResource("2_dywbp")
+
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
 transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, 13.6081, -57.8777, -10.8206)
 size = Vector3(3, 17, 3.22217)
@@ -60,42 +71,13 @@ transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, -7.83747, -
 size = Vector3(3, 29.8203, 3.22217)
 material = ExtResource("2_dywbp")
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, 28.3948, -70.5958, -8.83636)
-size = Vector3(2.52246, 31.1938, 3.22217)
-material = ExtResource("2_dywbp")
-
 [node name="CSGBox3D11" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, 12.1209, -73.3836, 11.6039)
-size = Vector3(2.52246, 30.2667, 3.22217)
+transform = Transform3D(6.80874, 0, 0, 0, 6.80874, 0, 0, 0, 6.80874, 11.2615, -73.3836, 11.1709)
+size = Vector3(2.7749, 30.2667, 3.34937)
 material = ExtResource("2_dywbp")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5981, 0, -10.9635)
-material_override = SubResource("StandardMaterial3D_dywbp")
-radius = 3.0
-material = ExtResource("4_dywbp")
-
-[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0372, 29.0986, -10.9635)
-material_override = SubResource("StandardMaterial3D_dywbp")
-radius = 3.0
-material = ExtResource("4_dywbp")
-
-[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="CSGCombiner3D"]
-transform = Transform3D(0.354306, 0, 0, 0, 0.354306, 0, 0, 0, 0.354306, 14.0372, 32.7922, -11.8873)
-material_override = SubResource("StandardMaterial3D_dywbp")
-radius = 3.0
-material = ExtResource("4_dywbp")
-
-[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="CSGCombiner3D"]
-transform = Transform3D(0.354306, 0, 0, 0, 0.354306, 0, 0, 0, 0.354306, 15.1359, 34.4254, -13.5023)
-material_override = SubResource("StandardMaterial3D_dywbp")
-radius = 3.0
-material = ExtResource("4_dywbp")
-
-[node name="CSGCylinder3D10" type="CSGCylinder3D" parent="CSGCombiner3D"]
-transform = Transform3D(0.354306, 0, 0, 0, 0.354306, 0, 0, 0, 0.354306, 18.5211, 34.4254, -15.6964)
 material_override = SubResource("StandardMaterial3D_dywbp")
 radius = 3.0
 material = ExtResource("4_dywbp")
@@ -114,6 +96,33 @@ material = ExtResource("4_dywbp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5981, 1.34375, -31.2919)
 radius = 1.28516
 height = 4.6875
+material = ExtResource("4_dywbp")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.996716, -22.9748, -1.90735e-06)
+
+[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0372, 24.449, -10.9635)
+material_override = SubResource("StandardMaterial3D_dywbp")
+radius = 3.0
+material = ExtResource("4_dywbp")
+
+[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCombiner3D"]
+transform = Transform3D(0.354306, 0, 0, 0, 0.354306, 0, 0, 0, 0.354306, 14.0372, 27.0306, -14.4257)
+material_override = SubResource("StandardMaterial3D_dywbp")
+radius = 3.0
+material = ExtResource("4_dywbp")
+
+[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCombiner3D"]
+transform = Transform3D(0.354306, 0, 0, 0, 0.354306, 0, 0, 0, 0.354306, 11.5388, 27.7334, -13.5023)
+material_override = SubResource("StandardMaterial3D_dywbp")
+radius = 3.0
+material = ExtResource("4_dywbp")
+
+[node name="CSGCylinder3D10" type="CSGCylinder3D" parent="CSGCombiner3D/CSGCombiner3D"]
+transform = Transform3D(0.354306, 0, 0, 0, 0.354306, 0, 0, 0, 0.354306, 18.5211, 26.1312, -12.7023)
+material_override = SubResource("StandardMaterial3D_dywbp")
+radius = 3.0
 material = ExtResource("4_dywbp")
 
 [node name="CSGCylinder3D4" type="CSGCylinder3D" parent="CSGCombiner3D"]
@@ -157,8 +166,10 @@ size = Vector3(2.50452, 0.565075, 4.98816)
 material = ExtResource("5_1seuy")
 
 [node name="Player" parent="." instance=ExtResource("1_x6ivy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145, 0)
-metadata/_edit_lock_ = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.77596, 0.0388527, -4.11173)
+mouse_look_sensitivity = 0.008
+deceleration = 9.0
+air_deceleration = 1.3
 
 [node name="CSGCombiner3D2" type="CSGCombiner3D" parent="."]
 use_collision = true
